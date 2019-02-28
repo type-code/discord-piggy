@@ -72,7 +72,19 @@ bot.on("disconnected", () => {
 });
 
 function updateOnline(name, tag) {
-	last_online.push({name, tag, date: new Date()});
+	var updated = false;
+	for(var user of last_online) {
+		if (user.tag == tag) {
+			user.name = name;
+			user.date = new Date();
+			updated = true;
+			break;
+		}
+	}
+
+	if (!updated) {
+		last_online.push({name, tag, date: new Date()});
+	}
 
 	last_online.sort(function(a, b) {
 		return b.date.getTime() - a.date.getTime();
